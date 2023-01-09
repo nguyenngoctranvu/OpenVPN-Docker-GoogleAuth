@@ -45,8 +45,8 @@ services:
       - EASYRSA_REQ_EMAIL
       - EASYRSA_REQ_CN
       - EASYRSA_BATCH
-    volumes:
-       - openvpn_config:/etc/openvpn
+    # volumes:
+    #    - openvpn_config:/etc/openvpn
     restart: always
     command: tail -f /dev/null
 
