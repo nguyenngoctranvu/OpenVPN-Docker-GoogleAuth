@@ -3,13 +3,22 @@ version: '3.7'
 volumes:
   openvpn_config:
   db_data:
-#networks:
-#   frontend:
-#    external: true
-#   backend:
-#    external: true
 
 services:
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
   openvpn:
     container_name: openvpn
     build:
