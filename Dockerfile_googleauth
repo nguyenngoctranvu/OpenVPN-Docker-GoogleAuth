@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1.18-apache
 
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer \
 && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig \
