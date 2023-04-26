@@ -1,15 +1,23 @@
-FROM centos/php-72-centos7
+FROM centos:7
 
 USER root
 
 LABEL maintainer="Armindo Cachada <armindo.cachada@spltech.co.uk>"
 
+# install php8
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum -y install https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
+    && yum -y install yum-utils yum-utils \
+    && yum-config-manager --disable 'remi-php*' \
+    && yum-config-manager --enable remi-php81 \
+    && yum repolist \
+    && yum -y install php php-{cli,fpm,mysqlnd,zip,devel,gd,mbstring,curl,xml,pear,bcmath,json,opcache,redis,memcache}
+
 RUN yum install -y epel-release
 RUN yum install -y openvpn sed git openssl mysql
-RUN ln -s /opt/rh/rh-php72/root/usr/bin/php /usr/bin/
 
 WORKDIR /root
-RUN git clone https://github.com/truthtaicom/OpenVPN-Admin
+RUN git clone https://github.com/nguyenngoctranvu/OpenVPN-Admin
 WORKDIR /root/OpenVPN-Admin
 RUN cp -r "./installation/scripts" "/etc/openvpn/" && chmod +x "/etc/openvpn/scripts/"* && \
     cp "./installation/server.conf" "/etc/openvpn/" && mkdir "/etc/openvpn/ccd"
